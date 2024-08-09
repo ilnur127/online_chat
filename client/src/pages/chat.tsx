@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import ChatComponents from '../components/chat';
+import { useSearchParamsStore } from '../store/searchParams.store';
 
 const ChatPage = () => {
-  const [roomName, setRoomName] = useState('')
-  const [userName, setUserName] = useState('')
+  const { changeSearchParams } = useSearchParamsStore()
 
   useEffect(() => {
-    const searchParams = Object.fromEntries(new URLSearchParams(window.location.search))
-    setUserName(searchParams.userName)
-    setRoomName(searchParams.roomName);
-  }, [])
+    const params = Object.fromEntries(new URLSearchParams(window.location.search))
+    changeSearchParams(params);
+  }, [changeSearchParams])
 
-  return roomName && userName ? <ChatComponents roomName={roomName} userName={userName} /> : <>Не удалось присоедениться к комнате</>;
+  return <ChatComponents />;
 };
 
 export default ChatPage;
